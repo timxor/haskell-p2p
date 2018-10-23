@@ -156,6 +156,7 @@ server =
   do
     port <- tlsPort
     x509 <- T.credentialLoadX509 "../tls/localhost.crt" "../tls/localhost.key"
+    -- x509 <- T.credentialLoadX509 "/Users/tim.siwula/Documents/Projects/haskell-p2p/tls/localhost.crt" "/Users/tim.siwula/Documents/Projects/haskell-p2p/tls/localhost.key"
 
     sock <- socket AF_INET Stream 0
     ____ <- setSocketOption sock ReuseAddr 1
