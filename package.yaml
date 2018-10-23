@@ -1,0 +1,59 @@
+ghc-options:
+## - GHC 8.2.2 Users Guide > 7. Using GHC > 7.2. Warnings and sanity-checking
+##   * Base: https://downloads.haskell.org/~ghc/8.2.2/docs/html/users_guide/
+##   * File: using-warnings.html#ghc-flag--Wall
+## Warnings that are not enabled by -Wall:
+- -Wall
+- -Wincomplete-uni-patterns
+- -Wincomplete-record-updates
+- -Wmonomorphism-restriction
+#- -Wimplicit-prelude
+- -Wmissing-local-signatures
+- -Wmissing-exported-signatures
+#- -Wmissing-import-lists
+- -Wmissing-home-modules
+- -Widentities
+- -Wredundant-constraints
+## Allow instances to be created in other files (like in C .h/.c files)
+- -Wno-orphans
+## Makes any warning into a fatal error.
+- -Werror
+
+executables:
+  client:
+    dependencies:
+      ## Date and time stamps
+      - time
+      ## x509 certificates, storage and validation
+      - x509
+      - x509-store
+      - x509-validation
+    main:
+      src/Client.hs
+    ghc-options:
+      - -O2
+  server:
+    main:
+      src/Server.hs
+    ghc-options:
+      - -O2
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+      # The -N flag built-in can be modified on runtime based on the system
+      # hosting the binary for optimal performance:
+      # hackage.haskell.org/package/base-4.11.1.0/docs/GHC-Conc.html
+      # - getNumProcessors
+      # hackage.haskell.org/package/base-4.11.1.0/docs/Control-Concurrent.html
+      # - setNumCapabilities
+
+# Stacks LTS resolver will ensure specific packages for deterministic builds
+dependencies:
+- base
+## Byte strings
+- bytestring
+## Netork (sockets)
+- network
+## TLS/SSL protocol native implementation (Server and Client)
+- data-default-class
+- tls
